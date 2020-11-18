@@ -124,3 +124,14 @@
         color: $mainColor;
     }
 }
+
+@media (max-width: 890px) {
+    .imageContainer {
+        flex-basis: 100%;
+        margin-top: 10px;
+    }
+    .info {
+        flex-basis: 100%;
+        order: -1;
+    }
+}

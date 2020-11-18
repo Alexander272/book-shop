@@ -32,7 +32,7 @@
 .linkBlock {
     display: flex;
     height: 200px;
-    flex-basis: 70%;
+    // flex-basis: 70%;
 }
 .image {
     max-height: 100%;
@@ -55,7 +55,7 @@
 }
 
 .btns {
-    flex-basis: 30%;
+    // flex-basis: 30%;
     display: flex;
     flex-direction: column;
 }
@@ -93,6 +93,8 @@
     border-top: 1px solid $mainColor;
     border-bottom: 1px solid $mainColor;
     color: $mainColor;
+    width: 10px;
+    display: inline-block;
 }
 .priceText {
     font-size: 1.2rem;
@@ -164,5 +166,62 @@
     &:hover {
         color: #fff;
         background-color: $mainColor;
+    }
+}
+
+@media (max-width: 870px) {
+    .bookContainer {
+        flex-wrap: wrap;
+        padding: 0 0 20px;
+    }
+}
+
+@media (max-width: 760px) {
+    .linkBlock {
+        flex-basis: 100%;
+        margin-bottom: 20px;
+    }
+    .btns {
+        flex-basis: 100%;
+    }
+    .priceText {
+        margin-bottom: 10px;
+    }
+    .numberText {
+        margin-bottom: 23px;
+    }
+}
+
+@media (max-width: 670px) {
+    .final {
+        flex-wrap: wrap;
+    }
+    .order {
+        flex-basis: 100%;
+        margin-top: 20px;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 460px) {
+    .linkBlock {
+        flex-wrap: wrap;
+        height: auto;
+        justify-content: center;
+    }
+    .image {
+        flex-basis: 100%;
+    }
+    .info {
+        flex-basis: 100%;
+    }
+}
+
+@media (max-width: 360px) {
+    .numberText {
+        line-height: 40px;
+    }
+    .number {
+        display: inline;
     }
 }

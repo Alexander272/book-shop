@@ -40,7 +40,7 @@ export default function CardPage() {
         if (event.target.dataset.action === '-') {
             setBooks(prev =>
                 prev.map((book, i) => {
-                    if (i === index) book.number > 2 ? (book.number = --book.number) : 1
+                    if (i === index) book.number > 2 ? (book.number = --book.number) : (book.number = 1)
                     return book
                 }),
             )

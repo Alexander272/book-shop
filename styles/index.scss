@@ -352,3 +352,10 @@ img {
         }
     }
 }
+
+@media (max-width: 660px) {
+    .content {
+        padding: 20px 10px;
+        margin: 40px auto;
+    }
+}
