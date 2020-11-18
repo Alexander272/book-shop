@@ -80,6 +80,7 @@ const typeDefs = gql`
         createNewBook(book: BookInput!): String!
         updateBook(book: BookInput!, id: ID!): String!
         createOrder(order: OrderInput): String!
+        addSubscribers(email: String): String
     }
 `
 module.exports = typeDefs

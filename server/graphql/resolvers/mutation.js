@@ -5,6 +5,7 @@ const { isAdmin, isAuth } = require('../../middleware/auth.middleware')
 const User = require('../../models/User')
 const Book = require('../../models/Book')
 const Order = require('../../models/Order')
+const Subscribers = require('../../models/Subscribers')
 const keys = require('../../keys')
 
 const mutation = {
@@ -165,6 +166,22 @@ const mutation = {
                 })
                 await newOrder.save()
                 return 'Заказ успешно добавлен'
+            } catch (error) {
+                throw new ApolloError(error.message)
+            }
+        },
+        async addSubscribers(_, { email }, context) {
+            try {
+                const reg = /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/
+                if (!reg.test(email)) throw new AuthenticationError('Введены некорректные данные')
+                const candidate = await Subscribers.findOne({ email })
+                if (!candidate) {
+                    const sub = new Subscribers({
+                        email,
+                    })
+                    sub.save()
+                }
+                return 'Подписка прошла успешно'
             } catch (error) {
                 throw new ApolloError(error.message)
             }

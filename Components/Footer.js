@@ -1,6 +1,25 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useMutation } from '@apollo/react-hooks'
+import AddSubscribers from '../graphql/mutation/addSubscribers'
 
 export const Footer = () => {
+    const [success, setSuccess] = useState('')
+    const [input, setInput] = useState('')
+    const [addSubscribers] = useMutation(AddSubscribers)
+
+    const changeHandler = event => {
+        setInput(event.target.value)
+    }
+    const reg = /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/
+    const clickHandler = async () => {
+        if (reg.test(input)) {
+            const res = await addSubscribers({ variables: { email: input } })
+            console.log(res.data.addSubscribers)
+            setInput('')
+            setSuccess('Успешно')
+        }
+    }
+
     return (
         <footer className="footer">
             <div className="footer-bottom">
@@ -9,11 +28,21 @@ export const Footer = () => {
                     <p className="footer__text">Будьте в курсе наших акций, скидкок и спец.предложений</p>
                     <div className="footer__subcribe">
                         <div className="footer__input-container">
-                            <input type="email" className="footer__input" placeholder="Введите свой email" />
-                            <p className="footer__input-btn">Подписаться</p>
+                            <input
+                                onChange={changeHandler}
+                                value={input}
+                                type="email"
+                                className="footer__input"
+                                placeholder="Введите свой email"
+                            />
+                            <p onClick={clickHandler} className="footer__input-btn">
+                                Подписаться
+                            </p>
                         </div>
-                        <p className="footer__hidden">
-                            На ваш email было отправлено письмо со ссылкой подтверждения подписки
+
+                        <p className={success.length === 0 ? 'footer__hidden' : 'footer__text'}>
+                            {/* На ваш email было отправлено письмо со ссылкой подтверждения подписки */}
+                            Спасибо за подписку
                         </p>
                     </div>
                 </div>

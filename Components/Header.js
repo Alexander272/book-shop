@@ -69,7 +69,7 @@ export const Header = ({ active }) => {
                         <span className="header__title">BookShop</span>
                     </a>
                 </Link>
-                <SearchInput />
+                {/* <SearchInput /> */}
                 <div className="header__card-container">
                     <Link href="/card">
                         <a className="header__card">
