@@ -156,6 +156,19 @@ const mutation = {
                 throw new ApolloError(error.message)
             }
         },
+        async createOrder(_, { order }, context) {
+            try {
+                const { userId, book } = order
+                const newOrder = new Order({
+                    userId,
+                    book,
+                })
+                await newOrder.save()
+                return 'Заказ успешно добавлен'
+            } catch (error) {
+                throw new ApolloError(error.message)
+            }
+        },
     },
 }
 module.exports = mutation

@@ -56,6 +56,14 @@ const typeDefs = gql`
         genre: String
         price: Int!
     }
+    input book {
+        bookId: ID
+        number: Int
+    }
+    input OrderInput {
+        userId: ID
+        book: [book]
+    }
 
     type Query {
         getAllUsers: [User!]
@@ -71,6 +79,7 @@ const typeDefs = gql`
         logout: String!
         createNewBook(book: BookInput!): String!
         updateBook(book: BookInput!, id: ID!): String!
+        createOrder(order: OrderInput): String!
     }
 `
 module.exports = typeDefs

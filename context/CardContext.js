@@ -7,4 +7,5 @@ export const CardContext = createContext({
     books: [],
     addToCard: noop,
     removeToCard: noop,
+    removeAll: noop,
 })

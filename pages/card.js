@@ -1,16 +1,22 @@
 import React, { useState, useEffect, useContext } from 'react'
 import Link from 'next/link'
+import { useMutation } from '@apollo/react-hooks'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { MainLayout } from '../Layout/MainLayout'
 import { CardContext } from './../context/CardContext'
+import { AuthContext } from './../context/AuthContext'
+import CreateOrder from '../graphql/mutation/createOrder'
 import classes from '../styles/cardPage.module.scss'
 
 export default function CardPage() {
     const card = useContext(CardContext)
+    const { userId, isAuthenticated } = useContext(AuthContext)
     const [books, setBooks] = useState(card.books)
     const [price, setPrice] = useState(0)
     const [number, setNumber] = useState(0)
+    const [success, setSuccess] = useState('')
+    const [createOrder] = useMutation(CreateOrder)
 
     useEffect(() => {
         let currentPrice = 0
@@ -46,6 +52,17 @@ export default function CardPage() {
                 }),
             )
         }
+    }
+
+    const orderHandler = async () => {
+        try {
+            const res = await createOrder({
+                variables: { order: { userId, book: books.map(book => ({ bookId: book.id, number: book.number })) } },
+            })
+            console.log(res.data.createOrder)
+            setSuccess('Успешно')
+            card.removeAll()
+        } catch (error) {}
     }
 
     return (
@@ -135,7 +152,19 @@ export default function CardPage() {
                                 </p>
                             </div>
                             <div className={classes.order}>
-                                <p className={classes.finalBtn}>Оформить заказ</p>
+                                {isAuthenticated ? (
+                                    success.length === 0 ? (
+                                        <p onClick={orderHandler} className={classes.finalBtn}>
+                                            Оформить заказ
+                                        </p>
+                                    ) : (
+                                        <p className={classes.order_textSuc}>Спасибо за офрмление заказа</p>
+                                    )
+                                ) : (
+                                    <p className={classes.order_text}>
+                                        Необходимо авторизироваться для офрмления заказа
+                                    </p>
+                                )}
                             </div>
                         </div>
                     )}

@@ -21,6 +21,11 @@ export const useCard = () => {
         localStorage.setItem('Books', JSON.stringify(data.filter(b => b.id !== book.id)))
     }, [])
 
+    const removeAll = useCallback(() => {
+        setBooks([])
+        localStorage.removeItem('Books')
+    })
+
     useEffect(() => {
         const data = JSON.parse(localStorage.getItem('Books'))
         if (data) {
@@ -29,5 +34,5 @@ export const useCard = () => {
         setReady(true)
     }, [])
 
-    return { books, addToCard, removeToCard, ready }
+    return { books, addToCard, removeToCard, removeAll, ready }
 }

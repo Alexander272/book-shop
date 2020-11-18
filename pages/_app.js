@@ -15,7 +15,7 @@ config.autoAddCss = false
 
 export default function MyApp({ Component, pageProps, session }) {
     const { token, userId, name, role, login, logout } = useAuth(session)
-    const { books, addToCard, removeToCard, ready } = useCard()
+    const { books, addToCard, removeToCard, removeAll, ready } = useCard()
     const isAuthenticated = !!token
     const apolloClient = useApollo(pageProps.initialApolloState, token)
 
@@ -27,7 +27,7 @@ export default function MyApp({ Component, pageProps, session }) {
         )
     return (
         <AuthContext.Provider value={{ token, userId, name, role, login, logout, isAuthenticated }}>
-            <CardContext.Provider value={{ userId, books, addToCard, removeToCard }}>
+            <CardContext.Provider value={{ userId, books, addToCard, removeToCard, removeAll }}>
                 <ApolloProvider client={apolloClient}>
                     <Component {...pageProps} />
                 </ApolloProvider>
