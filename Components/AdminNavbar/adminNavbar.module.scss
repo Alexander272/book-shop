@@ -1,0 +1,33 @@
+@import '../../styles/THEME.scss';
+
+.nav {
+    display: flex;
+    flex-direction: column;
+    width: 370px;
+    height: 100vh;
+    padding-top: 20px;
+    padding-left: 10px;
+    box-sizing: border-box;
+}
+
+.link {
+    color: $adminLinkColor;
+    margin: 20px 15px;
+    font-size: 1.2rem;
+    text-decoration: none;
+    transition: all 0.4s ease-out;
+
+    &:hover {
+        color: $mainColor;
+    }
+}
+
+.active {
+    color: $mainColor;
+    font-weight: bold;
+}
+
+.icon {
+    margin-right: 30px;
+    font-size: 1.4rem;
+}

@@ -1,0 +1,45 @@
+@import '../../styles/THEME.scss';
+
+.inputField {
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.inputField__label {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    color: #0d1520;
+    transform: translateY(-50%);
+    pointer-events: none;
+    transition: all 0.3s ease-out;
+}
+
+.inputField__input {
+    width: 100%;
+    padding: 7px 10px;
+    border-bottom: 1px solid #0d1520;
+    outline: none;
+    box-sizing: border-box;
+    font-size: 1rem;
+    transition: all 0.3s ease-out;
+    background: transparent;
+    color: #0d1520;
+}
+.inputField__input:focus {
+    border-bottom-color: $mainColor;
+    box-shadow: 0 0 6px 0 #fff;
+}
+.inputField__textarea {
+    resize: none;
+    height: 100px;
+    font-size: 1.2rem;
+}
+
+.inputField__input:focus + .inputField__label,
+.inputField__input:valid + .inputField__label {
+    top: -10px;
+    left: 0;
+    font-size: 0.8rem;
+    color: $mainColor;
+}

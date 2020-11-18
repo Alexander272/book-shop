@@ -1,0 +1,73 @@
+@import '../../styles/THEME.scss';
+
+.field {
+    flex-grow: 1;
+    margin: 20px 7rem 0;
+    display: flex;
+}
+
+.label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    width: 70px;
+    border-radius: 0 9px 9px 0;
+    border: 1px solid #fff;
+    border-left-color: $mainColor;
+    cursor: pointer;
+    transition: all 0.3s ease-out;
+
+    &:hover {
+        background-color: $mainColor;
+        border-color: #fff;
+
+        & .icon {
+            color: #fff;
+        }
+    }
+}
+
+.icon {
+    font-size: 1.1rem;
+    color: $mainColor;
+    transition: all 0.3s ease-out;
+}
+
+.input {
+    width: 100%;
+    padding: 10px 20px;
+    font-size: 1.3rem;
+    border-radius: 9px 0 0 9px;
+    outline: none;
+    box-shadow: 0 0 0 #000;
+    transition: all 0.3s ease-out;
+
+    &:focus {
+        box-shadow: 0 2px 9px #00000085;
+
+        & + label {
+            box-shadow: 2px 2px 9px #00000085;
+        }
+    }
+}
+
+@media (max-width: 1280px) {
+    .field {
+        margin: 20px 1rem 0;
+    }
+}
+
+@media (max-width: 1000px) {
+    .field {
+        flex-basis: 100%;
+        order: 2;
+        margin: 10px 1rem;
+    }
+}
+
+@media (max-width: 560px) {
+    .input {
+        font-size: 1rem;
+    }
+}

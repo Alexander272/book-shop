@@ -1,0 +1,35 @@
+@import '../../styles/THEME.scss';
+
+.container {
+    margin-bottom: 15px;
+    width: 400px;
+}
+
+.link {
+    color: $mainColor;
+    font-size: 1.2rem;
+    text-decoration: none;
+    transition: all 0.3s ease-out;
+    position: relative;
+    display: block;
+    padding: 20px;
+    padding-left: 50px;
+
+    &:hover {
+        color: darken($color: $mainColor, $amount: 10);
+    }
+}
+
+.devider {
+    width: 35%;
+    height: 2px;
+    background-color: $mainColor;
+    position: absolute;
+    bottom: 0;
+    left: 30px;
+}
+
+.icon {
+    font-size: 1.4rem;
+    margin-right: 10px;
+}

@@ -1,0 +1,42 @@
+@import '../../styles/THEME.scss';
+
+.field {
+    position: relative;
+}
+
+.label {
+    position: absolute;
+    top: 0;
+    left: 10px;
+    padding: 10px 0;
+    font-size: 16px;
+    color: $fontColor;
+    pointer-events: none;
+    transition: 0.5s;
+}
+
+.input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    color: $fontColor;
+    margin-bottom: 30px;
+    border: none;
+    border-bottom: 1px solid $fontColor;
+    outline: none;
+    background: transparent;
+    box-sizing: border-box;
+
+    &:focus,
+    &:valid {
+        border-bottom-color: $mainColor;
+    }
+}
+
+.input:focus ~ label,
+.input:valid ~ label {
+    top: -20px;
+    left: 0;
+    color: $mainColor;
+    font-size: 12px;
+}

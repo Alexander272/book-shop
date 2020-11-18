@@ -1,0 +1,28 @@
+@import '../../styles/THEME.scss';
+
+.btn {
+    text-align: center;
+    padding: 11px 20px;
+    box-sizing: border-box;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.primary {
+    color: $mainColor;
+    border: 1px solid $mainColor;
+    border-radius: 15px;
+    background: $mainBody;
+    width: 100%;
+    transition: all 0.3s ease-out;
+
+    &:hover {
+        color: lighten($color: $mainColor, $amount: 10);
+        border-color: lighten($color: $mainColor, $amount: 10);
+        background-color: darken($color: #fafafa, $amount: 10);
+    }
+}
+
+.icon {
+    margin-right: 10px;
+}

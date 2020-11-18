@@ -1,0 +1,32 @@
+@import './THEME.scss';
+
+.form {
+    width: 40%;
+    margin: 50px auto;
+}
+
+.title {
+    color: #0d1520;
+    font-size: 1.8rem;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.btn {
+    padding: 7px 20px;
+    color: #fff;
+    flex-basis: 40%;
+    border: 1px solid #fff;
+    border-radius: 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease-out;
+    text-decoration: none;
+    background: $mainColor;
+
+    &:hover {
+        color: $mainColor;
+        background: #fff;
+        border-color: $mainColor;
+    }
+}

@@ -1,0 +1,81 @@
+@import '../../styles/THEME.scss';
+
+.fileField {
+    margin-bottom: 30px;
+    max-width: 100%;
+}
+
+.fileInput {
+    outline: 0;
+    opacity: 0;
+    pointer-events: none;
+    user-select: none;
+    display: none;
+}
+
+.fileLabel {
+    width: 100%;
+    border: 2px dashed $mainColor;
+    border-radius: 5px;
+    display: block;
+    padding: 10px 7px;
+    transition: all 400ms ease-out;
+    cursor: pointer;
+    text-align: center;
+    box-sizing: border-box;
+    color: $mainColor;
+
+    &:hover {
+        border-color: $lightenBlue;
+        color: $lightenBlue;
+    }
+}
+
+.fileIcon {
+    margin-right: 25px;
+    font-size: 1.5rem;
+}
+
+.fileTitle {
+    font-size: 1.3rem;
+}
+
+.fileDesc {
+    font-size: 1.3rem;
+    margin: 15px 0;
+    color: $fontColor;
+}
+
+.container {
+    position: relative;
+    max-height: 100%;
+    max-width: 450px;
+    margin-right: 20px;
+}
+.imgContainer {
+    margin: 20px 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.iconContainer {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    font-size: 1.1rem;
+    color: #01b4ca;
+    background: #000000;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    pointer-events: all;
+}
+
+.icon {
+    pointer-events: none;
+}

@@ -1,0 +1,164 @@
+@import './THEME.scss';
+
+.content {
+    display: flex;
+}
+
+.container {
+    padding-top: 30px;
+    padding-left: 80px;
+    padding-bottom: 50px;
+    flex-grow: 1;
+    border-left: 2px solid $mainColor;
+    box-sizing: border-box;
+}
+
+.title {
+    font-size: 2.3rem;
+    color: $mainColor;
+    margin-bottom: 40px;
+}
+
+.form {
+    max-width: 800px;
+}
+
+.list {
+    color: $mainColor;
+    position: relative;
+    margin-bottom: 35px;
+}
+
+.listTitle {
+    padding: 10px;
+    color: $fontColor;
+}
+
+.listVariable {
+    border-top: 1px solid #03e9f4;
+    position: absolute;
+    top: 71px;
+    overflow: hidden;
+    transition: all 0.3s ease-out;
+    width: 100%;
+    background: darken($color: $mainBody, $amount: 7);
+    padding: 10px 20px 20px;
+    box-sizing: border-box;
+    z-index: 5;
+    height: 151px;
+}
+
+.hidden {
+    height: 0;
+    padding: 0;
+    border: none;
+}
+
+.currentItem {
+    display: flex;
+    cursor: pointer;
+    border-bottom: 1px solid #fff;
+    padding: 10px;
+    justify-content: space-between;
+    transition: all 0.3s ease-out;
+
+    &:hover {
+        background: rgba(#000, 0.1);
+    }
+}
+
+.listIcon {
+    font-size: 1.4rem;
+    margin-right: 30px;
+    transition: all 0.3s ease-out;
+}
+
+.rotate {
+    transform: rotate(180deg);
+}
+
+.item {
+    padding: 10px;
+    border-bottom: 1px solid #fff;
+    cursor: pointer;
+
+    &:hover {
+        background: $mainBody;
+        border-bottom-color: #03e9f4;
+    }
+}
+
+.itemList {
+    display: flex;
+    margin-bottom: 15px;
+    border-bottom: 1px solid $mainColor;
+    justify-content: space-between;
+    padding: 10px 25px;
+    box-sizing: border-box;
+}
+.bold {
+    margin-top: 5px;
+    text-align: center;
+}
+.trashIcon {
+    border-radius: 50%;
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(241, 54, 21);
+    color: #fff;
+    cursor: pointer;
+}
+.deleteIcon {
+    pointer-events: none;
+}
+
+.books {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+.bookContainer {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.445);
+    margin: 10px;
+    flex-basis: 45%;
+    border-radius: 10px;
+}
+.info {
+    flex-basis: 81%;
+}
+.info_p {
+    margin: 7px 0;
+}
+.btns {
+    flex-basis: 17%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-end;
+    padding-right: 10px;
+    box-sizing: border-box;
+}
+.btn_link {
+    padding: 10px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    background: $mainColor;
+    color: #fff;
+}
+.btn_del {
+    padding: 10px;
+    border-radius: 20px;
+    background: #fd211e;
+    color: #fff;
+    width: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
