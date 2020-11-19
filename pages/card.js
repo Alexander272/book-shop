@@ -57,7 +57,17 @@ export default function CardPage() {
     const orderHandler = async () => {
         try {
             const res = await createOrder({
-                variables: { order: { userId, book: books.map(book => ({ bookId: book.id, number: book.number })) } },
+                variables: {
+                    order: {
+                        userId,
+                        book: books.map(book => ({
+                            bookId: book.id,
+                            name: book.name,
+                            number: book.number,
+                            price: book.price,
+                        })),
+                    },
+                },
             })
             console.log(res.data.createOrder)
             setSuccess('Успешно')

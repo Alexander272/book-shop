@@ -30,6 +30,18 @@ const typeDefs = gql`
         previewUrl: String
         previewName: String
     }
+    type bookType {
+        bookId: ID
+        name: String
+        number: Int
+        price: Int
+    }
+    type Statistics {
+        books: [bookType]
+        subscribers: Int
+        totalPurchases: Int
+        allPrice: Int
+    }
 
     input UserInput {
         name: String
@@ -58,7 +70,9 @@ const typeDefs = gql`
     }
     input book {
         bookId: ID
+        name: String
         number: Int
+        price: Int
     }
     input OrderInput {
         userId: ID
@@ -69,6 +83,7 @@ const typeDefs = gql`
         getAllUsers: [User!]
         getBooks: [Book!]
         getBookById(id: ID!): Book
+        getStatistics: Statistics
     }
     type Mutation {
         createUserToAdmin(userInput: UserInput!): String!

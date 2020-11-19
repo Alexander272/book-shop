@@ -162,3 +162,42 @@
     align-items: center;
     cursor: pointer;
 }
+
+.stat {
+    margin-bottom: 30px;
+}
+.stat_p {
+    font-size: 1.3rem;
+    letter-spacing: 1.2px;
+    margin-bottom: 10px;
+}
+.price {
+    font-size: 1.4rem;
+    margin-top: 30px;
+    letter-spacing: 1.3px;
+}
+.stat_warn {
+    color: $mainColor;
+    margin-left: 10px;
+    font-size: 1.5rem;
+}
+.books_p {
+    flex-basis: 100%;
+}
+.stat_book {
+    padding: 10px 15px;
+    box-shadow: 0 0 6px rgb(66, 66, 66);
+    margin: 10px;
+    flex-basis: 46%;
+    box-sizing: border-box;
+    border-radius: 5px;
+}
+.book_name {
+    letter-spacing: 1.1px;
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}
+.book_warn {
+    color: $mainColor;
+    font-size: 1.3rem;
+}

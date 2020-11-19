@@ -159,10 +159,12 @@ const mutation = {
         },
         async createOrder(_, { order }, context) {
             try {
-                const { userId, book } = order
+                const { userId, book, name, price } = order
                 const newOrder = new Order({
                     userId,
+                    name,
                     book,
+                    price,
                 })
                 await newOrder.save()
                 return 'Заказ успешно добавлен'
