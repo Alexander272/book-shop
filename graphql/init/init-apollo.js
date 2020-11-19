@@ -2,13 +2,14 @@ import { useMemo } from 'react'
 import { ApolloClient, InMemoryCache } from 'apollo-boost'
 import { createHttpLink } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
+import keys from '../../server/keys'
 
 let apolloClient = null
 let token = null
 
 function create(initialState) {
     const httpLink = createHttpLink({
-        uri: `http://localhost:5000/api/graphql`,
+        uri: `${keys.BASE_URL}/api/graphql`,
         credentials: 'same-origin',
     })
 

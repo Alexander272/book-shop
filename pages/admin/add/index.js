@@ -12,6 +12,7 @@ import { SwitchInput } from '../../../Components/SwitchInput/SwitchInput'
 import { AuthContext } from '../../../context/AuthContext'
 import { ErrorLayout } from '../../../Layout/ErrorLayout'
 import CreateNewBook from '../../../graphql/mutation/createNewBook'
+import keys from '../../../server/keys'
 import classes from '../../../styles/admin.module.scss'
 
 export default function AdminAdd() {
@@ -85,7 +86,7 @@ export default function AdminAdd() {
             const formData = new FormData()
             formData.append('image', image)
             formData.append('bookName', form.name)
-            const response = await fetch(`http://localhost:5000/api/upload/add`, {
+            const response = await fetch(`${keys.BASE_URL}/api/upload/add`, {
                 method: 'POST',
                 body: formData,
                 headers: {
