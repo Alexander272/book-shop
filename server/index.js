@@ -36,7 +36,7 @@ const corsOptions = {
     credentials: true,
 }
 
-const PORT = 80
+const PORT = process.env.PORT || 80
 
 async function start() {
     try {
