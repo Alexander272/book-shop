@@ -1,0 +1,51 @@
+@import './THEME';
+
+.title {
+    font-size: 1.6rem;
+    color: $mainColor;
+    margin-bottom: 30px;
+}
+
+.breadcrumbs {
+    display: flex;
+    align-items: center;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+.text {
+    cursor: pointer;
+    text-decoration: none;
+    transition: 0.3s all ease-out;
+    font-size: 0.9rem;
+    letter-spacing: 1.1px;
+    color: #000;
+    margin: 0 15px;
+
+    &:hover {
+        color: $mainColor;
+    }
+}
+
+.form {
+    width: 60%;
+    margin: 50px auto;
+}
+
+.btn {
+    padding: 7px 20px;
+    color: #fff;
+    flex-basis: 40%;
+    border: 1px solid #fff;
+    border-radius: 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease-out;
+    text-decoration: none;
+    background: $mainColor;
+
+    &:hover {
+        color: $mainColor;
+        background: #fff;
+        border-color: $mainColor;
+    }
+}

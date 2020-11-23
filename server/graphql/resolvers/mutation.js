@@ -188,6 +188,19 @@ const mutation = {
                 throw new ApolloError(error.message)
             }
         },
+        async updateUser(_, { id, email, name, password, newPassword }, context) {
+            try {
+                const user = await User.findById(id)
+                const areSame = await bcript.compare(password, user.password)
+                if (areSame) {
+                    const hasPass = await bcript.hash(newPassword, 14)
+                    await User.updateOne({ _id: id }, { email, name, password: hasPass })
+                    return 'Данные успешно обновлены'
+                } else throw new ApolloError('Введенные данные некорректны')
+            } catch (error) {
+                throw new ApolloError(error.message)
+            }
+        },
     },
 }
 module.exports = mutation

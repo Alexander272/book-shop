@@ -42,6 +42,12 @@ const typeDefs = gql`
         totalPurchases: Int
         allPrice: Int
     }
+    type Order {
+        id: ID
+        userId: ID
+        book: [bookType]
+        dateOfOrders: String
+    }
 
     input UserInput {
         name: String
@@ -84,6 +90,8 @@ const typeDefs = gql`
         getBooks: [Book!]
         getBookById(id: ID!): Book
         getStatistics: Statistics
+        getOrder(id: ID!): [Order]
+        getUser(id: ID!): User
     }
     type Mutation {
         createUserToAdmin(userInput: UserInput!): String!
@@ -96,6 +104,7 @@ const typeDefs = gql`
         updateBook(book: BookInput!, id: ID!): String!
         createOrder(order: OrderInput): String!
         addSubscribers(email: String): String
+        updateUser(id: ID, email: String, name: String, password: String, newPassword: String): String
     }
 `
 module.exports = typeDefs

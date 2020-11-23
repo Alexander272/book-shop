@@ -1,0 +1,88 @@
+@import './THEME';
+
+.title {
+    font-size: 1.6rem;
+    color: $mainColor;
+    margin-bottom: 30px;
+}
+
+.books {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.order {
+    flex-basis: 45%;
+    padding: 15px;
+    box-sizing: border-box;
+    margin: 15px 2%;
+    box-shadow: 0 0 3px rgb(116, 116, 116);
+    border-radius: 7px;
+}
+
+.orderTitle {
+    font-size: 1.2rem;
+    letter-spacing: 1.1px;
+    color: $mainColor;
+    margin-bottom: 10px;
+    text-align: center;
+}
+.hr {
+    height: 1px;
+    width: 100%;
+    background-color: $mainColor;
+    margin-bottom: 15px;
+}
+.book {
+    display: flex;
+    flex-direction: column;
+    margin: 0 10% 15px;
+}
+.bookName {
+    display: flex;
+    justify-content: space-between;
+}
+.price {
+    display: flex;
+    justify-content: space-between;
+}
+.link {
+    color: #000;
+    text-decoration: none;
+    transition: 0.3s all ease-out;
+
+    &:hover {
+        color: $mainColor;
+    }
+}
+.warn {
+    font-size: 1.1rem;
+    color: $mainColor;
+}
+
+.breadcrumbs {
+    display: flex;
+    align-items: center;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+.text {
+    cursor: pointer;
+    text-decoration: none;
+    transition: 0.3s all ease-out;
+    font-size: 0.9rem;
+    letter-spacing: 1.1px;
+    color: #000;
+    margin: 0 15px;
+
+    &:hover {
+        color: $mainColor;
+    }
+}
+
+.empty {
+    font-size: 1.3rem;
+    letter-spacing: 1.2px;
+    color: rgb(105, 105, 105);
+}

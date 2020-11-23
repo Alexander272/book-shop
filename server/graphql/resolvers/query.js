@@ -90,6 +90,20 @@ const query = {
                 throw new ApolloError(error.message)
             }
         },
+        async getOrder(_, { id }, context) {
+            try {
+                return await Order.find({ userId: id })
+            } catch (error) {
+                throw new ApolloError(error.message)
+            }
+        },
+        async getUser(_, { id }, context) {
+            try {
+                return await User.findById(id)
+            } catch (error) {
+                throw new ApolloError(error.message)
+            }
+        },
     },
 }
 
