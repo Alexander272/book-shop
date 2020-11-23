@@ -9,7 +9,7 @@ let token = null
 
 function create(initialState) {
     const httpLink = createHttpLink({
-        uri: `/api/graphql`,
+        uri: `${keys.BASE_URL}/api/graphql`,
         credentials: 'same-origin',
     })
 
