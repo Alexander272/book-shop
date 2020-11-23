@@ -24,7 +24,7 @@ function create(initialState) {
 
     const isBrowser = typeof window !== 'undefined'
     return new ApolloClient({
-        connectToDevTools: isBrowser,
+        // connectToDevTools: isBrowser,
         ssrMode: !isBrowser, // Disables forceFetch on the server (so queries are only run once)
         link: authLink.concat(httpLink),
         cache: new InMemoryCache().restore(initialState || {}),
