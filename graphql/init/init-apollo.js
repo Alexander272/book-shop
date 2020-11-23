@@ -8,9 +8,8 @@ let apolloClient = null
 let token = null
 
 function create(initialState) {
-    console.log(keys)
     const httpLink = createHttpLink({
-        uri: `${keys.BASE_URL}/api/graphql`,
+        uri: `/api/graphql`,
         credentials: 'same-origin',
     })
 
