@@ -7,7 +7,7 @@ const Subscribers = require('../../models/Subscribers')
 
 const query = {
     Query: {
-        async getAllUsers() {
+        async getAllUsers(_, __, context) {
             try {
                 isAuth(context.req)
                 isAdmin(context.req)
