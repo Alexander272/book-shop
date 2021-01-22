@@ -201,6 +201,53 @@ const mutation = {
                 throw new ApolloError(error.message)
             }
         },
+
+        async addUserCart(_, { id, bookId, count }, context) {
+            try {
+                const book = await Book.findById(bookId)
+                const user = await User.findById(id)
+                await user.addToCart(book)
+                return 'Книга успешно добавлена'
+            } catch (error) {
+                throw new ApolloError(error.message)
+            }
+        },
+        async addAllUserCart(_, { id, cart }, context) {
+            try {
+                const user = await User.findById(id)
+                await user.addAllToCart(cart)
+                return 'Книги успешно добавлены'
+            } catch (error) {
+                throw new ApolloError(error.message)
+            }
+        },
+        async removeUserCart(_, { id, bookId }, context) {
+            try {
+                const user = await User.findById(id)
+                await user.removeFromCart(bookId)
+                return 'Книга успешно удалена'
+            } catch (error) {
+                throw new ApolloError(error.message)
+            }
+        },
+        async removeBookUserCart(_, { id, bookId }, context) {
+            try {
+                const user = await User.findById(id)
+                await user.removeBookFromCart(bookId)
+                return 'Книга успешно удалена'
+            } catch (error) {
+                throw new ApolloError(error.message)
+            }
+        },
+        async removeAllUserCart(_, { id }, context) {
+            try {
+                const user = await User.findById(id)
+                await user.clearCart()
+                return 'Корзина очищена'
+            } catch (error) {
+                throw new ApolloError(error.message)
+            }
+        },
     },
 }
 module.exports = mutation

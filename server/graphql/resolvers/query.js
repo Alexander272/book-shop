@@ -92,7 +92,9 @@ const query = {
         },
         async getOrder(_, { id }, context) {
             try {
-                return await Order.find({ userId: id })
+                const orders = await Order.find({ userId: id })
+                orders.sort((a, b) => a - b)
+                return orders
             } catch (error) {
                 throw new ApolloError(error.message)
             }
@@ -101,6 +103,16 @@ const query = {
             try {
                 return await User.findById(id)
             } catch (error) {
+                throw new ApolloError(error.message)
+            }
+        },
+        async getUserCart(_, { id }, context) {
+            try {
+                const user = await User.findById(id)
+                const cart = await user.populate('cart.items.bookId').execPopulate()
+                return cart
+            } catch (error) {
+                console.log(error.message)
                 throw new ApolloError(error.message)
             }
         },

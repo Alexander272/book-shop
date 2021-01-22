@@ -4,53 +4,43 @@ import { useMutation } from '@apollo/react-hooks'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { MainLayout } from '../Layout/MainLayout'
-import { CardContext } from './../context/CardContext'
-import { AuthContext } from './../context/AuthContext'
+import { CartContext } from './../context/CartContext'
+import { AuthContext } from '../context/AuthContext'
 import CreateOrder from '../graphql/mutation/createOrder'
 import classes from '../styles/cardPage.module.scss'
 
 export default function CardPage() {
-    const card = useContext(CardContext)
+    const cart = useContext(CartContext)
     const { userId, isAuthenticated } = useContext(AuthContext)
-    const [books, setBooks] = useState(card.books)
     const [price, setPrice] = useState(0)
     const [number, setNumber] = useState(0)
     const [success, setSuccess] = useState('')
     const [createOrder] = useMutation(CreateOrder)
 
+    const books = cart.books
+
     useEffect(() => {
         let currentPrice = 0
         let currentNumber = 0
         books.forEach(book => {
-            currentPrice += book.price * book.number
-            currentNumber += book.number
+            currentPrice += book.bookId.price * book.count
+            currentNumber += +book.count
         })
         setPrice(currentPrice)
         setNumber(currentNumber)
     }, [books])
 
     const removeHandler = event => {
-        const index = books.findIndex(b => b.id === event.target.dataset.id)
-        card.removeToCard(books[index])
-        setBooks(prev => prev.filter(book => book.id !== event.target.dataset.id))
+        const index = books.findIndex(b => b.bookId.id === event.target.dataset.id)
+        cart.removeBook(books, books[index], userId)
     }
 
     const numberChangedHandler = event => {
-        const index = books.findIndex(b => b.id === event.target.dataset.id)
+        const index = books.findIndex(b => b.bookId.id === event.target.dataset.id)
         if (event.target.dataset.action === '-') {
-            setBooks(prev =>
-                prev.map((book, i) => {
-                    if (i === index) book.number > 2 ? (book.number = --book.number) : (book.number = 1)
-                    return book
-                }),
-            )
+            cart.removeToCart(books, books[index], userId)
         } else {
-            setBooks(prev =>
-                prev.map((book, i) => {
-                    if (i === index) book.number = ++book.number
-                    return book
-                }),
-            )
+            cart.addToCart(books, books[index], userId)
         }
     }
 
@@ -61,17 +51,17 @@ export default function CardPage() {
                     order: {
                         userId,
                         book: books.map(book => ({
-                            bookId: book.id,
-                            name: book.name,
-                            number: book.number,
-                            price: book.price,
+                            bookId: book.bookId.id,
+                            name: book.bookId.name,
+                            count: book.count,
+                            price: book.bookId.price,
                         })),
                     },
                 },
             })
             console.log(res.data.createOrder)
             setSuccess('Успешно')
-            card.removeAll()
+            cart.removeAll(userId)
         } catch (error) {}
     }
 
@@ -90,22 +80,22 @@ export default function CardPage() {
                     )}
                     {books.map(book => {
                         return (
-                            <div key={book.id} className={classes.bookContainer}>
+                            <div key={book.bookId.id} className={classes.bookContainer}>
                                 <div className={classes.linkBlock}>
                                     <div className={classes.image}>
-                                        <Link href="/book/[id]" as={`/book/${book.id}`}>
+                                        <Link href="/book/[id]" as={`/book/${book.bookId.id}`}>
                                             <a>
-                                                <img src={book.url} alt={book.name} />
+                                                <img src={book.bookId.previewUrl} alt={book.bookId.name} />
                                             </a>
                                         </Link>
                                     </div>
                                     <div className={classes.info}>
                                         <p>
-                                            <Link href="/book/[id]" as={`/book/${book.id}`}>
-                                                <a className={classes.link}>{book.name}</a>
+                                            <Link href="/book/[id]" as={`/book/${book.bookId.id}`}>
+                                                <a className={classes.link}>{book.bookId.name}</a>
                                             </Link>
                                         </p>
-                                        <p className={classes.info_text}>{book.author}</p>
+                                        <p className={classes.info_text}>{book.bookId.author}</p>
                                     </div>
                                 </div>
                                 <div className={classes.btns}>
@@ -114,16 +104,16 @@ export default function CardPage() {
                                         <span
                                             onClick={numberChangedHandler}
                                             data-action="-"
-                                            data-id={book.id}
+                                            data-id={book.bookId.id}
                                             className={[classes.numberBtn, classes.ml, classes.numberBtnLeft].join(' ')}
                                         >
                                             -
                                         </span>
-                                        <span className={classes.number}>{book.number}</span>
+                                        <span className={classes.number}>{book.count}</span>
                                         <span
                                             onClick={numberChangedHandler}
                                             data-action="+"
-                                            data-id={book.id}
+                                            data-id={book.bookId.id}
                                             className={[classes.numberBtn, classes.numberBtnRight].join(' ')}
                                         >
                                             +
@@ -135,10 +125,10 @@ export default function CardPage() {
                                             {new Intl.NumberFormat('ru-RU', {
                                                 currency: 'RUB',
                                                 style: 'currency',
-                                            }).format(book.price)}
+                                            }).format(book.bookId.price)}
                                         </span>
                                     </p>
-                                    <p onClick={removeHandler} data-id={book.id} className={classes.remove}>
+                                    <p onClick={removeHandler} data-id={book.bookId.id} className={classes.remove}>
                                         <FontAwesomeIcon className={classes.removeIcon} icon={faTrash} /> Удалить
                                     </p>
                                 </div>

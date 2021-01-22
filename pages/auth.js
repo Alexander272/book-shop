@@ -5,12 +5,14 @@ import { useMutation } from '@apollo/react-hooks'
 import { Toasts } from '../Components/Toasts/Toasts'
 import { Loader } from '../Components/Loader/Loader'
 import { AuthContext } from '../context/AuthContext'
+import { CartContext } from '../context/CartContext'
 import CreateUser from '../graphql/mutation/createUser'
 import Login from '../graphql/mutation/login'
 import classes from '../styles/auth.module.scss'
 
 export default function AuthUsers() {
     const auth = useContext(AuthContext)
+    const { concatCart } = useContext(CartContext)
     const [active, setActive] = useState(false)
     const [loading, setLoading] = useState(false)
     const [success, setSuccess] = useState('')
@@ -68,6 +70,7 @@ export default function AuthUsers() {
             const res = await login({ variables: loginState })
             auth.login(res.data.login.token, res.data.login.id, res.data.login.name, res.data.login.role)
             setLoading(false)
+            await concatCart(res.data.login.id)
             await Router.push('/')
         } catch (e) {
             setLoading(false)

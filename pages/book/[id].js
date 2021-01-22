@@ -5,12 +5,14 @@ import { useLazyQuery } from '@apollo/react-hooks'
 import { MainLayout } from '../../Layout/MainLayout'
 import { initApollo } from '../../graphql/init/init-apollo'
 import { Loader } from '../../Components/Loader/Loader'
-import { CardContext } from './../../context/CardContext'
+import { CartContext } from './../../context/CartContext'
+import { AuthContext } from './../../context/AuthContext'
 import GetBookById from '../../graphql/query/getBookById'
 import classes from '../../styles/bookPage.module.scss'
 
 export default function BookPage({ bookProps }) {
-    const card = useContext(CardContext)
+    const { userId } = useContext(AuthContext)
+    const cart = useContext(CartContext)
     const [book, setBook] = useState(bookProps)
     const [purchasedBook, setPurchasedBook] = useState(false)
     const [isReady, setIsReady] = useState(bookProps)
@@ -27,20 +29,27 @@ export default function BookPage({ bookProps }) {
 
     useEffect(() => {
         if (book) {
-            setPurchasedBook(card.books.findIndex(b => b.id === book.id) >= 0 ? true : false)
+            setPurchasedBook(cart.books.findIndex(b => b.bookId.id === book.id) >= 0 ? true : false)
         }
-    }, [book])
+    }, [book, cart.books])
 
-    const addToCardHandler = event => {
+    const addToCartHandler = event => {
         if (!purchasedBook) {
-            card.addToCard({
-                id: book.id,
-                name: book.name,
-                author: book.author,
-                price: book.price,
-                url: book.previewUrl,
-                number: 1,
-            })
+            cart.addToCart(
+                cart.books,
+                {
+                    id: Date.now().toString(),
+                    count: 1,
+                    bookId: {
+                        id: book.id,
+                        name: book.name,
+                        author: book.author,
+                        previewUrl: book.previewUrl,
+                        price: book.price,
+                    },
+                },
+                userId,
+            )
             setPurchasedBook(true)
         }
     }
@@ -132,7 +141,7 @@ export default function BookPage({ bookProps }) {
                                                 }).format(book.price)}
                                             </p>
                                         </div>
-                                        <div onClick={addToCardHandler} className={classes.buy}>
+                                        <div onClick={addToCartHandler} className={classes.buy}>
                                             <p className={classes.buyText}>{purchasedBook ? 'В корзине' : 'Купить'}</p>
                                         </div>
                                     </div>

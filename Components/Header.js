@@ -6,12 +6,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBookOpen, faShoppingBasket, faSignInAlt, faEnvelope, faUser } from '@fortawesome/free-solid-svg-icons'
 import { SearchInput } from './SearchInput/SearchInput'
 import { AuthContext } from '../context/AuthContext'
-import { CardContext } from './../context/CardContext'
+import { CartContext } from '../context/CartContext'
 import Logout from '../graphql/mutation/logout'
 
 export const Header = ({ active }) => {
     const auth = useContext(AuthContext)
-    const card = useContext(CardContext)
+    const cart = useContext(CartContext)
     const [open, setOpen] = useState(false)
     const [logout, { client }] = useMutation(Logout)
 
@@ -20,6 +20,7 @@ export const Header = ({ active }) => {
     }
 
     const LogoutHandler = async () => {
+        cart.removeAll(null)
         await logout()
         auth.logout()
         await client.clearStore()
@@ -71,15 +72,15 @@ export const Header = ({ active }) => {
                 </Link>
                 {/* <SearchInput /> */}
                 <div className="header__card-container">
-                    <Link href="/card">
+                    <Link href="/cart">
                         <a className="header__card">
                             <FontAwesomeIcon icon={faShoppingBasket} className="header__card-icon" />
                         </a>
                     </Link>
                     <div className="header__card-text">
-                        <Link href="/card">
+                        <Link href="/cart">
                             <a className="header__card-link">
-                                <b>Корзина{card.books.length > 0 ? ': ' + card.books.length : null}</b>
+                                <b>Корзина{cart.books.length > 0 ? ': ' + cart.books.length : null}</b>
                             </a>
                         </Link>
                         {/* <Link href="/card#bookmarks">

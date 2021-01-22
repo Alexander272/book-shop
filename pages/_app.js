@@ -2,10 +2,9 @@ import App from 'next/app'
 import { ApolloProvider } from '@apollo/react-hooks'
 import { useApollo } from '../graphql/init/init-apollo'
 import { AuthContext } from '../context/AuthContext'
-import { CardContext } from '../context/CardContext'
+import { CartContext } from '../context/CartContext'
 import { useAuth } from '../hooks/auth.hook'
-import { useCard } from './../hooks/card.hook'
-import { Loader } from '../Components/Loader/Loader'
+import { useCart } from '../hooks/cart.hook'
 import '../styles/index.scss'
 
 import { config } from '@fortawesome/fontawesome-svg-core'
@@ -15,23 +14,17 @@ config.autoAddCss = false
 
 export default function MyApp({ Component, pageProps, session }) {
     const { token, userId, name, role, login, logout } = useAuth(session)
-    const { books, addToCard, removeToCard, removeAll, ready } = useCard()
     const isAuthenticated = !!token
     const apolloClient = useApollo(pageProps.initialApolloState, token)
+    const { books, addToCart, removeToCart, removeAll, removeBook, concatCart } = useCart(apolloClient, userId)
 
-    if (!ready)
-        return (
-            <div className="loader">
-                <Loader size="lg" />
-            </div>
-        )
     return (
         <AuthContext.Provider value={{ token, userId, name, role, login, logout, isAuthenticated }}>
-            <CardContext.Provider value={{ userId, books, addToCard, removeToCard, removeAll }}>
+            <CartContext.Provider value={{ userId, books, addToCart, removeToCart, removeAll, removeBook, concatCart }}>
                 <ApolloProvider client={apolloClient}>
                     <Component {...pageProps} />
                 </ApolloProvider>
-            </CardContext.Provider>
+            </CartContext.Provider>
         </AuthContext.Provider>
     )
 }

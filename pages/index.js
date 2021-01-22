@@ -4,16 +4,22 @@ import { useLazyQuery } from '@apollo/react-hooks'
 import { MainLayout } from '../Layout/MainLayout'
 import { initApollo } from '../graphql/init/init-apollo'
 import { Loader } from '../Components/Loader/Loader'
-import { CardContext } from './../context/CardContext'
+import { CartContext } from '../context/CartContext'
+import { AuthContext } from './../context/AuthContext'
 import GetBooks from '../graphql/query/getBooks'
 import classes from '../styles/homePage.module.scss'
 
 export default function HomePage({ bookProps }) {
-    const card = useContext(CardContext)
+    const cart = useContext(CartContext)
+    const { userId } = useContext(AuthContext)
     const [books, setBooks] = useState(bookProps)
-    const [purchasedBooks, setPurchasedBooks] = useState(card.books.map(b => b.id))
+    const [purchasedBooks, setPurchasedBooks] = useState([])
     const [isReady, setIsReady] = useState(bookProps.length > 0)
     const [getBooks, { loading, error, data, called }] = useLazyQuery(GetBooks)
+
+    useEffect(() => {
+        setPurchasedBooks(cart.books.map(b => b.bookId.id))
+    }, [cart.books])
 
     useEffect(() => {
         if (!error && bookProps.length === 0) getBooks()
@@ -23,17 +29,24 @@ export default function HomePage({ bookProps }) {
         }
     }, [loading, called])
 
-    const addToCardHandler = event => {
+    const addToCartHandler = event => {
         const book = books[event.target.dataset.index]
         if (!purchasedBooks.includes(book.id)) {
-            card.addToCard({
-                id: book.id,
-                name: book.name,
-                author: book.author,
-                price: book.price,
-                url: book.previewUrl,
-                number: 1,
-            })
+            cart.addToCart(
+                cart.books,
+                {
+                    id: Date.now().toString(),
+                    count: 1,
+                    bookId: {
+                        id: book.id,
+                        name: book.name,
+                        author: book.author,
+                        previewUrl: book.previewUrl,
+                        price: book.price,
+                    },
+                },
+                userId,
+            )
             setPurchasedBooks(prev => [...prev, book.id])
         }
     }
@@ -69,7 +82,7 @@ export default function HomePage({ bookProps }) {
                                         {book.availability ? (
                                             <div className={classes.priceBlock}>
                                                 <p
-                                                    onClick={addToCardHandler}
+                                                    onClick={addToCartHandler}
                                                     data-index={index}
                                                     className={classes.price_buy}
                                                 >

@@ -1,12 +1,22 @@
 const { gql } = require('@apollo/client')
 
 const typeDefs = gql`
+    type Items {
+        items: [Cart]
+    }
+    type Cart {
+        id: ID
+        count: Int
+        bookId: Book
+    }
     type User {
         id: ID
         name: String
         email: String
         role: String
         token: String
+        isConfirmed: Boolean
+        cart: Items
     }
     type Book {
         id: ID
@@ -77,12 +87,16 @@ const typeDefs = gql`
     input book {
         bookId: ID
         name: String
-        number: Int
+        count: Int
         price: Int
     }
     input OrderInput {
         userId: ID
         book: [book]
+    }
+    input CartInput {
+        count: Int
+        bookId: ID
     }
 
     type Query {
@@ -92,6 +106,7 @@ const typeDefs = gql`
         getStatistics: Statistics
         getOrder(id: ID!): [Order]
         getUser(id: ID!): User
+        getUserCart(id: ID!): User
     }
     type Mutation {
         createUserToAdmin(userInput: UserInput!): String!
@@ -105,6 +120,11 @@ const typeDefs = gql`
         createOrder(order: OrderInput): String!
         addSubscribers(email: String): String
         updateUser(id: ID, email: String, name: String, password: String, newPassword: String): String
+        addUserCart(id: ID!, bookId: ID!): String
+        addAllUserCart(id: ID!, cart: [CartInput]): String
+        removeUserCart(id: ID!, bookId: ID!): String
+        removeBookUserCart(id: ID!, bookId: ID!): String
+        removeAllUserCart(id: ID!): String
     }
 `
 module.exports = typeDefs

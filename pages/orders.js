@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { useLazyQuery } from '@apollo/react-hooks'
 import { MainLayout } from '../Layout/MainLayout'
 import { AuthContext } from './../context/AuthContext'
@@ -11,6 +12,11 @@ export default function OrderPage() {
     const [order, setOrder] = useState([])
     const [getOrder, { loading, error, data, called }] = useLazyQuery(GetOrder)
     const auth = useContext(AuthContext)
+    const router = useRouter()
+
+    useEffect(() => {
+        if (!auth.isAuthenticated) router.push('/')
+    }, [])
 
     useEffect(() => {
         if (!error) getOrder({ variables: { id: auth.userId } })
@@ -50,7 +56,7 @@ export default function OrderPage() {
                                                                 <Link href="/book/[id]" as={`/book/${book.bookId}`}>
                                                                     <a className={classes.link}>{book.name}</a>
                                                                 </Link>{' '}
-                                                                <span className={classes.warn}>{book.number}</span>
+                                                                <span className={classes.warn}>{book.count}</span>
                                                             </p>
                                                             <p className={classes.price}>
                                                                 Цена за 1 книгу:{' '}
