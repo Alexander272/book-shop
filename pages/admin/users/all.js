@@ -1,7 +1,8 @@
 import { useState, useEffect, useContext } from 'react'
 import { useLazyQuery, useMutation } from '@apollo/react-hooks'
+import { useRouter } from 'next/router'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
+import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import { AdminLayout } from '../../../Layout/AdminLayout'
 import { Loader } from '../../../Components/Loader/Loader'
 import { Toasts } from '../../../Components/Toasts/Toasts'
@@ -18,6 +19,7 @@ export default function AdminUsersAll() {
     const [errorDel, setErrorDel] = useState('')
     const [getUsers, { loading, error, data }] = useLazyQuery(GetAllUsers, { fetchPolicy: 'network-only' })
     const [deleteUserById] = useMutation(DeleteUser)
+    const router = useRouter()
 
     useEffect(() => {
         if (!data) getUsers()
@@ -51,6 +53,10 @@ export default function AdminUsersAll() {
                 setErrorDel('')
             }, 5500)
         }
+    }
+
+    const updateUser = event => {
+        router.push(`/admin/users/${event.target.dataset.id}`)
     }
 
     return (
@@ -88,7 +94,18 @@ export default function AdminUsersAll() {
                                                     <b>{user.role}</b>
                                                 </p>
                                             </div>
-                                            <div onClick={deleteUser} data-id={user.id} className={classes.trashIcon}>
+                                            <div
+                                                onClick={updateUser}
+                                                data-id={user.id}
+                                                className={[classes.icon, classes.editIcon].join(' ')}
+                                            >
+                                                <FontAwesomeIcon className={classes.deleteIcon} icon={faEdit} />
+                                            </div>
+                                            <div
+                                                onClick={deleteUser}
+                                                data-id={user.id}
+                                                className={[classes.icon, classes.trashIcon].join(' ')}
+                                            >
                                                 <FontAwesomeIcon className={classes.deleteIcon} icon={faTrashAlt} />
                                             </div>
                                         </div>

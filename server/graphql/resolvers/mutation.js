@@ -203,6 +203,17 @@ const mutation = {
             }
         },
 
+        async updateUserForAdmin(_, { id, email, name, role }, context) {
+            try {
+                isAuth(context.req)
+                isAdmin(context.req)
+                await User.updateOne({ _id: id }, { name, email, role, promoted: context.req.session.userName })
+                return 'Данные успешно обновлены'
+            } catch (error) {
+                throw new ApolloError(error.message)
+            }
+        },
+
         async addUserCart(_, { id, bookId, count }, context) {
             try {
                 const book = await Book.findById(bookId)

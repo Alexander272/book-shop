@@ -135,6 +135,7 @@ const typeDefs = gql`
         addGenres(name: String!, engName: String!): String
         updateGenre(id: ID!, name: String!, engName: String!): String
         removeGenre(id: ID!): String
+        updateUserForAdmin(id: ID!, email: String, name: String, role: String): String
     }
 `
 module.exports = typeDefs

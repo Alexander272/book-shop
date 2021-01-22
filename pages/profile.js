@@ -9,7 +9,6 @@ import { Toasts } from '../Components/Toasts/Toasts'
 import GetUser from '../graphql/query/getUser'
 import UpdateUser from '../graphql/mutation/updateUser'
 import classes from '../styles/profilePage.module.scss'
-import { from } from 'apollo-boost'
 
 export default function ProfilePage() {
     const [form, setForm] = useState({
