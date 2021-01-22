@@ -93,7 +93,7 @@ const query = {
         async getOrder(_, { id }, context) {
             try {
                 const orders = await Order.find({ userId: id })
-                orders.sort((a, b) => a - b)
+                orders.sort((a, b) => b.dateOfOrders - a.dateOfOrders)
                 return orders
             } catch (error) {
                 throw new ApolloError(error.message)

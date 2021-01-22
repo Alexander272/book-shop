@@ -15,7 +15,7 @@ export default function OrderPage() {
     const router = useRouter()
 
     useEffect(() => {
-        if (!auth.isAuthenticated) router.push('/')
+        // if (!auth.isAuthenticated) router.push('/')
     }, [])
 
     useEffect(() => {
