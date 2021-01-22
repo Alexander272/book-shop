@@ -58,6 +58,11 @@ const typeDefs = gql`
         book: [bookType]
         dateOfOrders: String
     }
+    type Genres {
+        id: ID
+        name: String
+        engName: String
+    }
 
     input UserInput {
         name: String
@@ -107,6 +112,8 @@ const typeDefs = gql`
         getOrder(id: ID!): [Order]
         getUser(id: ID!): User
         getUserCart(id: ID!): User
+        getGenres: [Genres]!
+        getGenreById(id: ID!): Genres!
     }
     type Mutation {
         createUserToAdmin(userInput: UserInput!): String!
@@ -125,6 +132,9 @@ const typeDefs = gql`
         removeUserCart(id: ID!, bookId: ID!): String
         removeBookUserCart(id: ID!, bookId: ID!): String
         removeAllUserCart(id: ID!): String
+        addGenres(name: String!, engName: String!): String
+        updateGenre(id: ID!, name: String!, engName: String!): String
+        removeGenre(id: ID!): String
     }
 `
 module.exports = typeDefs

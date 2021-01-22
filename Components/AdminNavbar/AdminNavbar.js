@@ -3,7 +3,15 @@ import Link from 'next/link'
 import Router from 'next/router'
 import { useMutation } from '@apollo/react-hooks'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPen, faPlusCircle, faHome, faSignOutAlt, faUser, faChartBar } from '@fortawesome/free-solid-svg-icons'
+import {
+    faPen,
+    faPlusCircle,
+    faHome,
+    faSignOutAlt,
+    faUser,
+    faChartBar,
+    faListUl,
+} from '@fortawesome/free-solid-svg-icons'
 import { AuthContext } from '../../context/AuthContext'
 import Logout from '../../graphql/mutation/logout'
 import classes from './adminNavbar.module.scss'
@@ -43,6 +51,12 @@ export const AdminNavbar = ({ active }) => {
                 <a className={[classes.link, active === 'Редактировать' ? classes.active : null].join(' ')}>
                     <FontAwesomeIcon icon={faPen} className={classes.icon} />
                     Редактировать
+                </a>
+            </Link>
+            <Link href={'/admin/genres'}>
+                <a className={[classes.link, active === 'Жанры' ? classes.active : null].join(' ')}>
+                    <FontAwesomeIcon icon={faListUl} className={classes.icon} />
+                    Жанры книг
                 </a>
             </Link>
             <Link href={'/admin/users'}>

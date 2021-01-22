@@ -121,9 +121,10 @@ export default function AdminEditById() {
                 })
             }
             setSuccess(res.data.updateBook)
-            setTimeout(() => {
-                setSuccess('')
-            }, 5500)
+            // setTimeout(() => {
+            //     setSuccess('')
+            // }, 5500)
+            router.push('/admin/edit')
             setLoadingUpdate(false)
         } catch (e) {
             console.log(e.message)

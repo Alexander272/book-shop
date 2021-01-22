@@ -6,6 +6,7 @@ const User = require('../../models/User')
 const Book = require('../../models/Book')
 const Order = require('../../models/Order')
 const Subscribers = require('../../models/Subscribers')
+const Genre = require('../../models/Genre')
 const keys = require('../../keys')
 
 const mutation = {
@@ -244,6 +245,34 @@ const mutation = {
                 const user = await User.findById(id)
                 await user.clearCart()
                 return 'Корзина очищена'
+            } catch (error) {
+                throw new ApolloError(error.message)
+            }
+        },
+        async addGenres(_, { name, engName }, context) {
+            try {
+                const newGenre = new Genre({
+                    name,
+                    engName,
+                })
+                await newGenre.save()
+                return 'Жанр успешно создан'
+            } catch (error) {
+                throw new ApolloError(error.message)
+            }
+        },
+        async updateGenre(_, { id, name, engName }, context) {
+            try {
+                await Genre.updateOne({ _id: id }, { name, engName })
+                return 'Жанр успешно обновлен'
+            } catch (error) {
+                throw new ApolloError(error.message)
+            }
+        },
+        async removeGenre(_, { id }, context) {
+            try {
+                await Genre.deleteOne({ _id: id })
+                return 'Жанр успешно удален'
             } catch (error) {
                 throw new ApolloError(error.message)
             }

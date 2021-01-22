@@ -16,15 +16,15 @@ export default function AdminUsersAll() {
     const [loadingDel, setLoadingDel] = useState(false)
     const [success, setSuccess] = useState('')
     const [errorDel, setErrorDel] = useState('')
-    const [getUsers, { loading, error, data, called }] = useLazyQuery(GetAllUsers)
+    const [getUsers, { loading, error, data }] = useLazyQuery(GetAllUsers, { fetchPolicy: 'network-only' })
     const [deleteUserById] = useMutation(DeleteUser)
 
     useEffect(() => {
-        if (!error && !users) getUsers()
+        if (!data) getUsers()
         if (data) {
             setUsers(data.getAllUsers)
         }
-    }, [loading, called])
+    }, [data])
 
     const auth = useContext(AuthContext)
     if (auth.role !== 'admin' || !auth.isAuthenticated) {

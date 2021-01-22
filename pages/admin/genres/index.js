@@ -1,29 +1,32 @@
 import React, { useContext, useState, useEffect } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faEdit, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { useLazyQuery, useMutation } from '@apollo/react-hooks'
 import { AdminLayout } from '../../../Layout/AdminLayout'
 import { ErrorLayout } from '../../../Layout/ErrorLayout'
 import { AuthContext } from '../../../context/AuthContext'
-import { Toasts } from './../../../Components/Toasts/Toasts'
-import { Loader } from './../../../Components/Loader/Loader'
-import GetBooks from '../../../graphql/query/getBooksAdmin'
-import DeleteBook from '../../../graphql/mutation/deleteBook'
+import { Toasts } from '../../../Components/Toasts/Toasts'
+import { Loader } from '../../../Components/Loader/Loader'
+import { Button } from './../../../Components/Button/Button'
+import GetGenres from '../../../graphql/query/getGenres'
+import DeleteGenre from '../../../graphql/mutation/deleteGenre'
 import classes from '../../../styles/admin.module.scss'
 
 export default function AdminEdit() {
-    const [books, setBooks] = useState([])
+    const [genres, setGenres] = useState([])
     const [loadingDel, setLoadingDel] = useState(false)
     const [success, setSuccess] = useState('')
     const [errorDel, setErrorDel] = useState('')
-    const [getBooks, { loading, error, data }] = useLazyQuery(GetBooks, { fetchPolicy: 'network-only' })
-    const [deleteBook] = useMutation(DeleteBook)
+    const [getGenres, { loading, error, data }] = useLazyQuery(GetGenres, { fetchPolicy: 'network-only' })
+    const [deleteGenre] = useMutation(DeleteGenre)
+    const router = useRouter()
 
     useEffect(() => {
-        if (!data) getBooks()
+        if (!data) getGenres()
         if (data) {
-            setBooks(data.getBooks)
+            setGenres(data.getGenres)
         }
     }, [data])
 
@@ -36,10 +39,10 @@ export default function AdminEdit() {
         const id = event.target.dataset.id
         try {
             setLoadingDel(true)
-            const res = await deleteBook({ variables: { id } })
-            setSuccess(res.data.deleteBook)
+            const res = await deleteGenre({ variables: { id } })
+            setSuccess(res.data.removeGenre)
 
-            setBooks(prevState => prevState.filter(book => book.id != id))
+            setGenres(prev => prev.filter(genre => genre.id != id))
             setTimeout(() => {
                 setSuccess('')
             }, 5500)
@@ -53,40 +56,45 @@ export default function AdminEdit() {
         }
     }
 
+    const addHandler = () => {
+        router.push('/admin/genres/add')
+    }
+
     return (
-        <AdminLayout title="Edit books" active="Редактировать">
+        <AdminLayout title="Genres" active="Жанры">
             <div className={classes.container}>
-                <h1 className={classes.title}>Редактировать товар</h1>
+                <h1 className={classes.title}>Жанры книг</h1>
                 {success.length > 0 && <Toasts type={'success'} message={success} />}
                 {errorDel.length > 0 && <Toasts type={'error'} message={errorDel} />}
                 <div className={classes.form}>
+                    <Button text={'Добавть'} type="primary" icon={faPlus} onClick={addHandler} />
                     {loading || loadingDel ? (
                         <div className={classes.loader}>
                             <Loader size="md" />
                         </div>
                     ) : (
                         <div className={classes.books}>
-                            {books &&
-                                books.map(book => {
+                            {genres &&
+                                genres.map(genre => {
                                     return (
-                                        <div key={book.id} className={classes.bookContainer}>
+                                        <div key={genre.id} className={classes.bookContainer}>
                                             <div className={classes.info}>
                                                 <p className={classes.info_p}>
-                                                    <b>Автор</b>: {book.author}
+                                                    <b>Название</b>: {genre.name}
                                                 </p>
                                                 <p className={classes.info_p}>
-                                                    <b>Название</b>: {book.name}
+                                                    <b>Название</b>: {genre.engName}
                                                 </p>
                                             </div>
                                             <div className={classes.btns}>
-                                                <Link href="/admin/edit/[id]" as={`/admin/edit/${book.id}`}>
+                                                <Link href="/admin/genres/[id]" as={`/admin/genres/${genre.id}`}>
                                                     <a className={classes.btn_link}>
                                                         <FontAwesomeIcon className={classes.deleteIcon} icon={faEdit} />
                                                     </a>
                                                 </Link>
                                                 <p
                                                     onClick={onRemoveHandler}
-                                                    data-id={book.id}
+                                                    data-id={genre.id}
                                                     className={classes.btn_del}
                                                 >
                                                     <FontAwesomeIcon className={classes.deleteIcon} icon={faTrash} />

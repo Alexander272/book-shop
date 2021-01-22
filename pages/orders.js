@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 import { useLazyQuery } from '@apollo/react-hooks'
 import { MainLayout } from '../Layout/MainLayout'
+import { ErrorLayout } from '../Layout/ErrorLayout'
 import { AuthContext } from './../context/AuthContext'
 import { Loader } from '../Components/Loader/Loader'
 import GetOrder from '../graphql/query/getOrder'
@@ -12,11 +12,6 @@ export default function OrderPage() {
     const [order, setOrder] = useState([])
     const [getOrder, { loading, error, data, called }] = useLazyQuery(GetOrder)
     const auth = useContext(AuthContext)
-    const router = useRouter()
-
-    useEffect(() => {
-        // if (!auth.isAuthenticated) router.push('/')
-    }, [])
 
     useEffect(() => {
         if (!error) getOrder({ variables: { id: auth.userId } })
@@ -24,6 +19,10 @@ export default function OrderPage() {
             setOrder(data.getOrder)
         }
     }, [loading, called])
+
+    if (!auth.isAuthenticated) {
+        return <ErrorLayout />
+    }
 
     return (
         <MainLayout title="Заказы">

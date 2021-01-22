@@ -4,6 +4,7 @@ const User = require('../../models/User')
 const Book = require('../../models/Book')
 const Order = require('../../models/Order')
 const Subscribers = require('../../models/Subscribers')
+const Genre = require('../../models/Genre')
 
 const query = {
     Query: {
@@ -113,6 +114,20 @@ const query = {
                 return cart
             } catch (error) {
                 console.log(error.message)
+                throw new ApolloError(error.message)
+            }
+        },
+        async getGenres(_, __, context) {
+            try {
+                return await Genre.find()
+            } catch (error) {
+                throw new ApolloError(error.message)
+            }
+        },
+        async getGenreById(_, { id }, context) {
+            try {
+                return await Genre.findById(id)
+            } catch (error) {
                 throw new ApolloError(error.message)
             }
         },
