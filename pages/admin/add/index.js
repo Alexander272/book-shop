@@ -1,6 +1,7 @@
-import React, { useState, useContext } from 'react'
-import { faSave } from '@fortawesome/free-solid-svg-icons'
-import { useMutation } from '@apollo/client/react/hooks'
+import React, { useState, useContext, useEffect } from 'react'
+import { faAngleDown, faSave, faPlus, faTimes } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useMutation, useLazyQuery } from '@apollo/client/react/hooks'
 import { AdminLayout } from '../../../Layout/AdminLayout'
 import { Input } from '../../../Components/Input/Input'
 import { FileInput } from '../../../Components/FileInput/FileInput'
@@ -11,6 +12,7 @@ import { Loader } from '../../../Components/Loader/Loader'
 import { SwitchInput } from '../../../Components/SwitchInput/SwitchInput'
 import { AuthContext } from '../../../context/AuthContext'
 import { ErrorLayout } from '../../../Layout/ErrorLayout'
+import GetGenres from '../../../graphql/query/getGenres'
 import CreateNewBook from '../../../graphql/mutation/createNewBook'
 import keys from '../../../server/keys'
 import classes from '../../../styles/admin.module.scss'
@@ -32,15 +34,27 @@ export default function AdminAdd() {
         weight: '',
         ageRestrictions: '',
         translator: '',
-        genre: '',
+        genre: [],
         price: 0,
     })
+    const [selectGenres, setSelectGenres] = useState([])
+    const [genres, setGenres] = useState([])
+    const [isOpen, setIsOpen] = useState(false)
+    const [isAdd, setIsAdd] = useState(false)
     const [image, setImage] = useState(null)
     const [imageUrl, setImageUrl] = useState(null)
     const [success, setSuccess] = useState('')
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
+    const [getGenres, { data }] = useLazyQuery(GetGenres)
     const [createNewBook] = useMutation(CreateNewBook)
+
+    useEffect(() => {
+        if (!data) getGenres()
+        if (data) {
+            setGenres(data.getGenres)
+        }
+    }, [data])
 
     const auth = useContext(AuthContext)
     if (auth.role === 'user' || !auth.isAuthenticated) {
@@ -67,6 +81,24 @@ export default function AdminAdd() {
     const getImage = data => {
         if (data) setImageUrl(data)
         else setImageUrl(null)
+    }
+
+    const openHandler = () => {
+        setIsOpen(prev => !prev)
+    }
+    const addHandler = () => {
+        setIsAdd(prev => !prev)
+    }
+
+    const changeGenreHandler = event => {
+        setIsOpen(false)
+        setSelectGenres(prev => prev.concat([{ id: event.target.dataset.id, name: event.target.dataset.name }]))
+        setForm(prev => ({ ...prev, genre: prev.genre.concat([event.target.dataset.id]) }))
+        setIsAdd(false)
+    }
+    const removeGenreHandler = event => {
+        setSelectGenres(prev => prev.filter(g => g.id !== event.target.dataset.id))
+        setForm(prev => ({ ...prev, genre: prev.genre.filter(g => g !== event.target.dataset.id) }))
     }
 
     const saveHandler = async event => {
@@ -113,9 +145,10 @@ export default function AdminAdd() {
                 weight: '',
                 ageRestrictions: '',
                 translator: '',
-                genre: '',
+                genre: [],
                 price: 0,
             })
+            setSelectGenres([])
             setImage(null)
             setImageUrl(null)
             setLoading(false)
@@ -247,13 +280,58 @@ export default function AdminAdd() {
                                 placeholder="Возрастные ограничения"
                                 onChange={changeHandler}
                             />
-                            <Input
-                                type="text"
-                                name="genre"
-                                value={form.genre}
-                                placeholder="Жанр"
-                                onChange={changeHandler}
-                            />
+                            <p className={classes.listTitle}>Жанр</p>
+                            {selectGenres.length > 0 && (
+                                <div className={classes.genreContainer}>
+                                    {selectGenres.map(genre => (
+                                        <p className={classes.genre} key={genre.id}>
+                                            <span>{genre.name}</span>
+                                            <span
+                                                className={classes.genreIcon}
+                                                data-id={genre.id}
+                                                onClick={removeGenreHandler}
+                                            >
+                                                <FontAwesomeIcon className={classes.iconNoEvents} icon={faTimes} />
+                                            </span>
+                                        </p>
+                                    ))}
+                                </div>
+                            )}
+                            {!isAdd ? (
+                                <Button text="Добавть жанр" type="primary" icon={faPlus} onClick={addHandler} />
+                            ) : (
+                                genres.length > 0 && (
+                                    <div className={classes.list}>
+                                        <p onClick={openHandler} className={classes.currentItem}>
+                                            {genres[0].name}
+                                            <FontAwesomeIcon
+                                                className={[classes.listIcon, isOpen ? classes.rotate : null].join(' ')}
+                                                icon={faAngleDown}
+                                            />
+                                        </p>
+                                        <div
+                                            className={[classes.listVariable, !isOpen ? classes.hidden : null].join(
+                                                ' ',
+                                            )}
+                                        >
+                                            {genres.map(g => {
+                                                return (
+                                                    <p
+                                                        key={g.id}
+                                                        data-id={g.id}
+                                                        data-name={g.name}
+                                                        onClick={changeGenreHandler}
+                                                        className={classes.item}
+                                                    >
+                                                        {g.name}
+                                                    </p>
+                                                )
+                                            })}
+                                        </div>
+                                    </div>
+                                )
+                            )}
+                            <div className={classes.genreContainer}></div>
                             <Input
                                 type="text"
                                 name="translator"

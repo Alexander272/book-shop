@@ -1,4 +1,4 @@
-const { Schema, model } = require('mongoose')
+const { Schema, model, Types } = require('mongoose')
 
 const bookSchema = new Schema({
     name: { type: String, required: true },
@@ -16,7 +16,7 @@ const bookSchema = new Schema({
     circulation: { type: Number, required: false },
     weight: { type: String, required: false },
     ageRestrictions: { type: String, required: false },
-    genre: { type: String, required: true },
+    genre: { bookGanres: [{ genreId: { type: Types.ObjectId, ref: 'Genres', required: true } }] },
     price: { type: Number, required: true },
 
     previewUrl: String,

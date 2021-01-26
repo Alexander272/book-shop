@@ -127,7 +127,9 @@ const mutation = {
                     circulation: +book.circulation,
                     weight: book.weight,
                     ageRestrictions: book.ageRestrictions,
-                    genre: book.genre,
+                    genre: {
+                        bookGanres: book.genre,
+                    },
                     price: +book.price,
                     previewUrl: '',
                     previewName: '',

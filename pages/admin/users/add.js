@@ -40,7 +40,7 @@ export default function AdminUsersAdd() {
     }
 
     const clickHandler = () => {
-        setIsOpen(!isOpen)
+        setIsOpen(prev => !prev)
     }
 
     const changeRoleHandler = event => {

@@ -86,7 +86,7 @@ const typeDefs = gql`
         circulation: Int
         weight: String
         ageRestrictions: String
-        genre: String
+        genre: [ID]
         price: Int!
     }
     input book {

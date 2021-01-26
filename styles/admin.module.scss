@@ -46,6 +46,7 @@
     box-sizing: border-box;
     z-index: 5;
     height: 151px;
+    overflow-y: auto;
 }
 
 .hidden {
@@ -207,4 +208,35 @@
 .book_warn {
     color: $mainColor;
     font-size: 1.3rem;
+}
+
+.genreContainer {
+    display: flex;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+.genre {
+    border: 1px solid $mainColor;
+    border-radius: 6px;
+    padding: 0 15px;
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+.iconNoEvents {
+    pointer-events: none;
+}
+.genreIcon {
+    margin-left: 10px;
+    padding: 7px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+        color: #fd211e;
+    }
 }
